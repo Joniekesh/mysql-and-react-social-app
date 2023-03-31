@@ -1,0 +1,86 @@
+@import "../../global.scss";
+
+.addStory {
+	@include themify($themes) {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background-color: rgba(0, 0, 0, 0.7);
+		display: flex;
+		justify-content: center;
+		z-index: 30;
+
+		.addStorycontainer {
+			-webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+			box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+			background-color: themed("bg");
+			color: themed("textColor");
+			padding: 10px;
+			border-radius: 8px;
+			display: flex;
+			flex-direction: column;
+			height: max-content;
+			position: relative;
+
+			form {
+				display: flex;
+				flex-direction: column;
+				gap: 10px;
+
+				.formInput {
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+
+					input {
+						background-color: themed("bgSoft");
+					}
+
+					img {
+						width: 100px;
+						height: 100px;
+						border-radius: 10px;
+						object-fit: cover;
+					}
+				}
+			}
+
+			button {
+				border: none;
+				cursor: pointer;
+				padding: 8px;
+				width: max-content;
+				background-color: teal;
+				color: white;
+				border-radius: 5px;
+				align-self: flex-end;
+				transition: all 0.5s ease-in-out;
+
+				&:hover {
+					transform: scale(1.02);
+				}
+			}
+		}
+
+		.cancel {
+			position: absolute;
+			left: 10px;
+			bottom: 10px;
+			border: none;
+			cursor: pointer;
+			padding: 8px;
+			width: max-content;
+			background-color: crimson;
+			color: white;
+			border-radius: 5px;
+			align-self: flex-end;
+			transition: all 0.5s ease-in-out;
+
+			&:hover {
+				transform: scale(1.02);
+			}
+		}
+	}
+}

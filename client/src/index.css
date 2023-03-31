@@ -1,0 +1,14 @@
+* {
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+body {
+	font-family: "Nunito Sans", sans-serif;
+}
+
+.link {
+	text-decoration: none;
+	color: inherit;
+}

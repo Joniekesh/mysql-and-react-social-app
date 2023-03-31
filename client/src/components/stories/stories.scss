@@ -1,0 +1,65 @@
+.stories {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	z-index: 1;
+
+	.story {
+		width: 80px;
+		height: 120px;
+		border-radius: 10px;
+		overflow: hidden;
+		position: relative;
+		cursor: pointer;
+
+		img {
+			width: 100%;
+			height: 100%;
+		}
+
+		.icon {
+			position: absolute;
+			color: white;
+			left: 4px;
+			bottom: 20px;
+			margin: auto;
+			font-size: 30px;
+		}
+
+		.username {
+			position: absolute;
+			color: white;
+			bottom: 4px;
+			left: 4px;
+			font-weight: 500;
+		}
+	}
+
+	.list {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+
+		.listItem {
+			width: 80px;
+			height: 120px;
+			position: relative;
+			border-radius: 10px;
+			overflow: hidden;
+			cursor: pointer;
+
+			img {
+				width: 100%;
+				height: 100%;
+			}
+
+			span {
+				position: absolute;
+				bottom: 4px;
+				left: 4px;
+				color: white;
+				font-weight: 500;
+			}
+		}
+	}
+}

@@ -1,0 +1,90 @@
+@import "../../global.scss";
+
+.commentItem {
+	@include themify($themes) {
+		display: flex;
+		flex-direction: column;
+		background-color: themed("bg");
+		color: themed("textColor");
+		border-radius: 10px;
+		padding: 10px;
+
+		.commentTop {
+			display: flex;
+			justify-content: space-between;
+			position: relative;
+
+			.left {
+				display: flex;
+				gap: 10px;
+				cursor: pointer;
+
+				img {
+					width: 32px;
+					height: 32px;
+					border-radius: 50%;
+					object-fit: cover;
+					border: 1px solid lightgray;
+				}
+
+				.userDetails {
+					display: flex;
+					flex-direction: column;
+
+					.username {
+						font-weight: bold;
+					}
+
+					.time {
+						font-weight: 400;
+						font-size: 13px;
+					}
+				}
+			}
+
+			.editDelete {
+				position: absolute;
+				right: 16px;
+				top: 10px;
+				-webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+				box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+				padding: 10px;
+				background-color: themed("bg");
+				border-radius: 10px;
+				display: flex;
+				flex-direction: column;
+				gap: 16px;
+				width: 150px;
+
+				.edit {
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+					color: green;
+					font-weight: bold;
+					cursor: pointer;
+				}
+
+				.delete {
+					display: flex;
+					align-items: center;
+					justify-content: space-between;
+					color: crimson;
+					font-weight: bold;
+					cursor: pointer;
+				}
+			}
+		}
+
+		.commentBottom {
+			font-size: 15px;
+		}
+
+		hr {
+			margin: 10px 0px;
+			height: 0.5px;
+			opacity: 0.1;
+			color: themed("border");
+		}
+	}
+}

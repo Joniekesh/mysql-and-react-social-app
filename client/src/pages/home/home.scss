@@ -1,0 +1,31 @@
+@import "../../global.scss";
+
+.home {
+	@include themify($themes) {
+		background-color: themed("bgSoft");
+		padding: 10px 20px 20px 20px;
+		display: flex;
+		flex-direction: column;
+		height: max-content;
+		gap: 10px;
+
+		@include mobile {
+			padding: 6px;
+		}
+
+		.posts {
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+
+			.noPosts {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin-top: 50px;
+				font-size: 36px;
+				opacity: 0.6;
+			}
+		}
+	}
+}

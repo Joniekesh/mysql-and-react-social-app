@@ -1,0 +1,81 @@
+@import "../../global.scss";
+
+.editProfile {
+	@include themify($themes) {
+		width: 100vw;
+		height: 100vh;
+		background-color: rgba(0, 0, 0, 0.7);
+		position: fixed;
+		top: 0;
+		left: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 20;
+
+		.editProfileContainer {
+			position: relative;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			flex-direction: column;
+			-webkit-box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+			box-shadow: 0px 0px 16px -8px rgba(0, 0, 0, 0.68);
+			background-color: themed("bg");
+			color: themed("textColor");
+			padding: 5px;
+			max-height: 100%;
+			width: 90%;
+			border-radius: 10px;
+
+			.cancel {
+				position: absolute;
+				top: 5px;
+				right: 5px;
+				cursor: pointer;
+				font-size: 20px;
+			}
+
+			form {
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+				justify-content: center;
+				gap: 4px;
+
+				.inputContainer {
+					display: flex;
+					flex-direction: column;
+					width: 250px;
+
+					label {
+						font-weight: 600;
+					}
+
+					input {
+						border: none;
+						outline: none;
+						background-color: themed("bgSoft");
+						color: themed("textColor");
+						padding: 6px;
+					}
+				}
+
+				button {
+					background-color: teal;
+					color: white;
+					padding: 6px;
+					cursor: pointer;
+					border: none;
+					margin-top: 4px;
+					border-radius: 5px;
+					transition: all 0.5s ease-in-out;
+
+					&:hover {
+						transform: scale(1.02);
+					}
+				}
+			}
+		}
+	}
+}

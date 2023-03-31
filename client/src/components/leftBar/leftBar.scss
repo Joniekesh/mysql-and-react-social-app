@@ -1,0 +1,73 @@
+@import "../../global.scss";
+
+.leftBar {
+	@include themify($themes) {
+		flex: 2;
+		background-color: themed("bg");
+		color: themed("textColor");
+		position: sticky;
+		top: 60px;
+		height: calc(100vh - 60px);
+
+		@include mobile {
+			display: none;
+		}
+
+		.container {
+			display: flex;
+			flex-direction: column;
+			padding: 10px 20px 20px 20px;
+			gap: 4px;
+
+			@include responsive774 {
+				padding: 10px;
+			}
+
+			.top,
+			.middle,
+			.bottom {
+				display: flex;
+				flex-direction: column;
+
+				.title {
+					margin-bottom: 8px;
+					font-size: 14px;
+					opacity: 0.8;
+				}
+
+				.item {
+					display: flex;
+					align-items: center;
+					gap: 10px;
+					padding: 2px;
+					cursor: pointer;
+
+					&:hover {
+						background-color: lightgray;
+						border-radius: 5px;
+					}
+
+					.icon {
+						img {
+							height: 24px;
+						}
+					}
+
+					.text {
+						font-size: 15px;
+
+						@include responsive774 {
+							display: none;
+						}
+					}
+				}
+			}
+
+			hr {
+				height: 0.5px;
+				color: themed("border");
+				opacity: 0.1;
+			}
+		}
+	}
+}
