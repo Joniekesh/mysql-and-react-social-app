@@ -24,7 +24,7 @@ app.use((req, res, next) => {
 });
 app.use(
 	cors({
-		origin: "http://localhost:3000",
+		origin: "https://mysql-social-app.netlify.app",
 	})
 );
 app.use(express.json());
