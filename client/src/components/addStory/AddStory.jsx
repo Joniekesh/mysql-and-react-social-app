@@ -37,7 +37,7 @@ const AddStory = ({ setOpen }) => {
 		let imgUrl = "";
 		if (file) imgUrl = await upload();
 
-		mutation.mutate({ video: imgUrl });
+		mutation.mutate({ image: imgUrl });
 		setOpen(false);
 	};
 

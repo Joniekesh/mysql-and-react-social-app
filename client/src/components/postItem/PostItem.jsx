@@ -1,20 +1,21 @@
 import "./postItem.scss";
-import { AiOutlineHeart } from "react-icons/ai";
 import { BiComment } from "react-icons/bi";
 import { BsShare } from "react-icons/bs";
 import { FaEllipsisV } from "react-icons/fa";
 import { FiEdit3, FiTrash } from "react-icons/fi";
-import { useContext, useState } from "react";
+import { AiOutlineHeart } from "react-icons/ai";
+import { useContext, useEffect, useState } from "react";
 import EditPost from "../editPost/EditPost";
 import Comments from "../comments/Comments";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import { UserContext } from "../../context/UserContext";
 import { makeRequest } from "../../axiosInstance";
 import { format } from "timeago.js";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import Likes from "../likes/Likes";
+import { toast } from "react-toastify";
 
-const PostItem = ({ post }) => {
+const PostItem = ({ post, socket }) => {
 	const [open, setOpen] = useState(false);
 	const [openEditPost, setOpenEditPost] = useState(false);
 	const [showComments, setShowComments] = useState(false);
@@ -25,27 +26,17 @@ const PostItem = ({ post }) => {
 	};
 
 	const { currentUser } = useContext(AuthContext);
+	const { user } = useContext(UserContext);
 
 	const queryClient = useQueryClient();
 
-	const { isLoading, error, data } = useQuery(["likes"], () =>
+	const { isLoading, error, data } = useQuery(["likes", post?.id], () =>
 		makeRequest.get("/likes/" + post?.id).then((res) => {
 			return res.data;
 		})
 	);
 
 	const isLiked = data?.includes(currentUser?.id);
-
-	const deleteMutation = useMutation(
-		(postId) => {
-			return makeRequest.delete(`/posts/${postId}`);
-		},
-		{
-			onSuccess: () => {
-				queryClient.invalidateQueries(["posts"]);
-			},
-		}
-	);
 
 	const likeUnlikeMutation = useMutation(
 		(postId) => {
@@ -58,12 +49,32 @@ const PostItem = ({ post }) => {
 		}
 	);
 
-	const handleDelete = () => {
-		deleteMutation.mutate(post.id);
+	const handleLike = (type) => {
+		likeUnlikeMutation.mutate(post.id);
+		toast.success(isLiked ? "Post disliked" : "Post liked", {
+			theme: "colored",
+		});
+
+		socket?.emit("sendNotification", {
+			sender: user.fullname,
+			receiver: post.fullname,
+			type,
+		});
 	};
 
-	const handleLike = (postId) => {
-		likeUnlikeMutation.mutate(postId);
+	const deleteMutation = useMutation(
+		(postId) => {
+			return makeRequest.delete(`/posts/${postId}`);
+		},
+		{
+			onSuccess: () => {
+				queryClient.invalidateQueries(["posts"]);
+			},
+		}
+	);
+
+	const handleDelete = () => {
+		deleteMutation.mutate(post.id);
 	};
 
 	return (
@@ -106,7 +117,13 @@ const PostItem = ({ post }) => {
 			</div>
 			<div className="bottom">
 				<div className="reactionItem">
-					<Likes post={post} />
+					<AiOutlineHeart
+						style={{ cursor: "pointer", color: isLiked && "red" }}
+						onClick={() => handleLike(1)}
+					/>
+					<span>
+						{data?.length} {data?.length > 1 ? "Likes" : "Like"}
+					</span>
 				</div>
 				<div
 					style={{ cursor: "pointer" }}
@@ -121,7 +138,9 @@ const PostItem = ({ post }) => {
 					<span>Share</span>
 				</div>
 			</div>
-			{showComments && <Comments postId={post.id} />}
+			{showComments && (
+				<Comments postId={post.id} fullname={post.fullname} socket={socket} />
+			)}
 			{openEditPost && (
 				<EditPost setOpenEditPost={setOpenEditPost} post={post} />
 			)}

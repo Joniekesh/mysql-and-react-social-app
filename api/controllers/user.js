@@ -1,10 +1,11 @@
 import jwt from "jsonwebtoken";
 import { db } from "../config/db.js";
 import bcrypt from "bcryptjs";
+import { getToken } from "../utils/getToken.js";
 
 // Get Logged In User
 export const getUser = (req, res) => {
-	const token = req.cookies.accessToken;
+	const token = getToken(req, res);
 
 	if (!token)
 		return res.status(500).json("Not authenticated. Authorization denied!");
@@ -24,7 +25,7 @@ export const getUser = (req, res) => {
 
 // Get User By Id
 export const getUserById = (req, res) => {
-	const token = req.cookies.accessToken;
+	const token = getToken(req, res);
 
 	if (!token)
 		return res.status(500).json("Not authenticated. Authorization denied!");
@@ -47,8 +48,8 @@ export const getUserById = (req, res) => {
 };
 
 // Update User
-export const updateUser = (req, res) => {
-	const token = req.cookies.accessToken;
+export const updateUser = async (req, res) => {
+	const token = getToken(req, res);
 
 	if (!token)
 		return res.status(500).json("Not authenticated. Authorization denied!");
@@ -61,18 +62,18 @@ export const updateUser = (req, res) => {
 		db.query(userQuery, [userInfo.id], (err, user) => {
 			if (err) return res.status(500).json(err);
 
-			if (user) {
-				const salt = bcrypt.genSaltSync(10);
-				const hash = bcrypt.hashSync(req.body.password, salt);
+			if (user.length > 0) {
+				// const salt = bcrypt.genSaltSync(10);
+				// const hash = bcrypt.hashSync(req.body.password, salt);
 
 				const q =
-					"UPDATE users SET `username`=?, `fullname`=?, `email`=?,  `password`=?, `address`=?,`city`=?, `country`=?, `profilepic`=?, `coverpic`=?,  `bio`=?, `phone`=? WHERE `id`=?";
+					"UPDATE users SET `username`=?,`fullname`=?,`email`=?,`address`=?,`city`=?,`country`=?,`profilepic`=?,`coverpic`=?,`bio`=?,`phone`=? WHERE `id`=?";
 
 				const values = [
 					req.body.username || user[0].username,
 					req.body.fullname || user[0].fullname,
 					req.body.email || user[0].email,
-					hash || user[0].password,
+					// hash || user[0].password,
 					req.body.address || user[0].address,
 					req.body.city || user[0].city,
 					req.body.country || user[0].country,
@@ -80,7 +81,6 @@ export const updateUser = (req, res) => {
 					req.body.coverpic || user[0].coverpic,
 					req.body.bio || user[0].bio,
 					req.body.phone || user[0].phone,
-					userInfo.id,
 				];
 
 				db.query(q, [...values, userInfo.id], (err, data) => {

@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { db } from "../config/db.js";
+import { getToken } from "../utils/getToken.js";
 
 // Get Likes
 export const getLikes = (req, res) => {
@@ -13,7 +14,7 @@ export const getLikes = (req, res) => {
 
 // Like And Unlike Post
 export const addRemoveLike = (req, res) => {
-	const token = req.cookies.accessToken;
+	const token = getToken(req, res);
 
 	if (!token)
 		return res.status(500).json("Not authenticated. Authorization denied!");

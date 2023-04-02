@@ -1,9 +1,10 @@
 import jwt from "jsonwebtoken";
 import { db } from "../config/db.js";
+import { getToken } from "../utils/getToken.js";
 
 // Create Post
 export const createPost = (req, res) => {
-	const token = req.cookies.accessToken;
+	const token = getToken(req, res);
 
 	if (!token)
 		return res.status(500).json("Not authenticated. Authorization denied!");
@@ -26,7 +27,7 @@ export const createPost = (req, res) => {
 // Get All Posts
 export const getPosts = (req, res) => {
 	const userId = req.query.userId;
-	const token = req.cookies.accessToken;
+	const token = getToken(req, res);
 
 	if (!token)
 		return res.status(500).json("Not authenticated. Authorization denied!");
@@ -49,7 +50,7 @@ export const getPosts = (req, res) => {
 // Get All Posts
 export const getTimeLinePosts = (req, res) => {
 	const userId = req.query.userId;
-	const token = req.cookies.accessToken;
+	const token = getToken(req, res);
 
 	if (!token)
 		return res.status(500).json("Not authenticated. Authorization denied!");
@@ -71,7 +72,7 @@ export const getTimeLinePosts = (req, res) => {
 
 // Get A Single Post
 export const getPost = (req, res) => {
-	const token = req.cookies.accessToken;
+	const token = getToken(req, res);
 
 	if (!token)
 		return res.status(500).json("Not authenticated. Authorization denied!");
@@ -95,7 +96,7 @@ export const getPost = (req, res) => {
 
 // Update Post
 export const updatePost = (req, res) => {
-	const token = req.cookies.accessToken;
+	const token = getToken(req, res);
 
 	if (!token)
 		return res.status(500).json("Not authenticated. Authorization denied!");
@@ -134,7 +135,7 @@ export const updatePost = (req, res) => {
 
 // Delete Post
 export const deletePost = (req, res) => {
-	const token = req.cookies.accessToken;
+	const token = getToken(req, res);
 
 	if (!token)
 		return res.status(500).json("Not authenticated. Authorization denied!");

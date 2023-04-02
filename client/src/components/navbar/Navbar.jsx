@@ -2,24 +2,50 @@ import "./navbar.scss";
 import { FcHome } from "react-icons/fc";
 import { BsMoon, BsSun, BsBell } from "react-icons/bs";
 import { BiSearchAlt2 } from "react-icons/bi";
-import { RiDashboardLine } from "react-icons/ri";
 import { AiOutlineMail } from "react-icons/ai";
-import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import { DarkModeContext } from "../../context/DarkModeContext";
-import { AuthContext } from "../../context/AuthContext";
 import { UserContext } from "../../context/UserContext";
 
-const Navbar = () => {
+const Navbar = ({ socket }) => {
+	const [notifications, setNotifications] = useState([]);
+	const [open, setOpen] = useState(false);
+
 	const { toggle, darkMode } = useContext(DarkModeContext);
-	const { logout } = useContext(AuthContext);
 	const { user } = useContext(UserContext);
 
 	const id = user?.id.toString();
 
+	const navigate = useNavigate();
+
 	const handleLogout = async () => {
-		await logout();
+		localStorage.removeItem("token");
+		localStorage.removeItem("user");
+
+		// navigate("/login");
 		window.location.replace("/login");
+	};
+
+	useEffect(() => {
+		socket?.on("getNotifications", (data) => {
+			setNotifications((prev) => [...prev, data]);
+			// console.log(data.sender);
+		});
+	}, [socket, notifications]);
+
+	// console.log(typeof notifications);
+	console.log(notifications);
+
+	const displayNotifications = ({ sender, type }) => {
+		let action;
+
+		if (type === 1) {
+			action = "liked";
+		} else if (type === 2) {
+			action = "commented on";
+		}
+		return <span>{`${sender} ${action} your post.`}</span>;
 	};
 
 	return (
@@ -73,6 +99,11 @@ const Navbar = () => {
 				</Link>
 				<button onClick={handleLogout}>Logout</button>
 			</div>
+			{open && (
+				<div className="notifications">
+					{notifications.map((n) => displayNotifications(n))}
+				</div>
+			)}
 		</div>
 	);
 };

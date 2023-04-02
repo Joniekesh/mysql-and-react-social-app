@@ -1,9 +1,10 @@
 import { db } from "../config/db.js";
 import jwt from "jsonwebtoken";
+import { getToken } from "../utils/getToken.js";
 
 // Add Comment
 export const getComments = (req, res) => {
-	const token = req.cookies.accessToken;
+	const token = getToken(req, res);
 
 	if (!token)
 		return res.status(500).json("Not authenticated. Authorization denied!");
@@ -24,7 +25,7 @@ export const getComments = (req, res) => {
 
 // Add Comment
 export const addComment = (req, res) => {
-	const token = req.cookies.accessToken;
+	const token = getToken(req, res);
 
 	if (!token)
 		return res.status(500).json("Not authenticated. Authorization denied!");
@@ -46,7 +47,7 @@ export const addComment = (req, res) => {
 
 //  Update Comment
 export const updateComment = (req, res) => {
-	const token = req.cookies.accessToken;
+	const token = getToken(req, res);
 
 	if (!token)
 		return res.status(500).json("Not authenticated. Authorization denied!");
@@ -82,7 +83,7 @@ export const updateComment = (req, res) => {
 
 // Delete Comment
 export const deleteComment = (req, res) => {
-	const token = req.cookies.accessToken;
+	const token = getToken(req, res);
 
 	if (!token)
 		return res.status(500).json("Not authenticated. Authorization denied!");

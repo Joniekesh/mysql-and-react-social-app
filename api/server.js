@@ -2,7 +2,6 @@ import express from "express";
 import dotenv from "dotenv";
 import colors from "colors";
 import cors from "cors";
-import cookieParser from "cookie-parser";
 import authRoute from "./routes/auth.js";
 import userRoute from "./routes/user.js";
 import postRoute from "./routes/post.js";
@@ -10,25 +9,64 @@ import likeRoute from "./routes/like.js";
 import commentRoute from "./routes/comment.js";
 import relationshipRoute from "./routes/relationship.js";
 import storyRoute from "./routes/story.js";
-
 import multer from "multer";
+
+import { Server } from "socket.io";
+import http from "http";
+import {
+	addUser,
+	getOnlineUsers,
+	getUser,
+	removeUser,
+} from "./utils/socketHelperFunctions.js";
 
 dotenv.config();
 
 const app = express();
 
 // Middlewares
-app.use((req, res, next) => {
-	res.header("Access-Control-Allow-Credentials", true);
-	next();
-});
+// app.use((req, res, next) => {
+// 	res.header("Access-Control-Allow-Credentials", true);
+// 	next();
+// });
 app.use(
 	cors({
 		origin: "https://mysql-social-app.netlify.app",
+
+		// origin: "http://localhost:3000",
 	})
 );
 app.use(express.json());
-app.use(cookieParser());
+
+const server = http.createServer(app);
+const io = new Server(server, {
+	cors: {
+		origin: "https://mysql-social-app.netlify.app",
+		// "http://localhost:3000"
+	},
+});
+
+io.on("connection", (socket) => {
+	socket.on("addUser", (fullname) => {
+		addUser(socket.id, fullname);
+		console.log("user connected");
+
+		const users = getOnlineUsers();
+
+		socket.emit("getOnlineUsers", users);
+	});
+
+	socket.on("sendNotification", ({ sender, receiver, type }) => {
+		const user = getUser(receiver);
+
+		io.to(user?.socketId).emit("getNotifications", { sender, type });
+	});
+
+	socket.on("disconnect", () => {
+		removeUser(socket.id);
+		console.log("user left");
+	});
+});
 
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
@@ -56,7 +94,7 @@ app.use("/api/stories", storyRoute);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () =>
+server.listen(PORT, () =>
 	console.log(
 		`SERVER running in ${process.env.NODE_ENV} MODE on PORT ${PORT}`.cyan.bold
 	)

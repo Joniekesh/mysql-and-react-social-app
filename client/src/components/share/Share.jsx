@@ -5,8 +5,9 @@ import { useContext, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axiosInstance";
 import { UserContext } from "../../context/UserContext";
+import { toast } from "react-toastify";
 
-const Share = () => {
+const Share = ({ socket }) => {
 	const [description, setDescription] = useState("");
 	const [file, setFile] = useState("");
 
@@ -46,6 +47,8 @@ const Share = () => {
 		mutation.mutate({ description, img: imgUrl });
 		setDescription("");
 		setFile("");
+
+		toast.success("Post created.", { theme: "colored" });
 	};
 
 	return (

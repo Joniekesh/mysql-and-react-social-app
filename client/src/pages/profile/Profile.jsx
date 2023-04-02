@@ -16,6 +16,8 @@ const Profile = () => {
 	const [user, setUser] = useState(null);
 	const [isEdit, setIsEdit] = useState(false);
 
+	console.log(user);
+
 	const { id } = useParams();
 
 	const userId = parseInt(id);

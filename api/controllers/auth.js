@@ -1,6 +1,7 @@
 import { db } from "../config/db.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { getToken } from "../utils/getToken.js";
 
 // Register
 export const register = (req, res) => {
@@ -38,7 +39,7 @@ export const login = (req, res) => {
 	db.query(q, [req.body.email], (err, user) => {
 		if (err) return res.status(500).json(err);
 
-		if (!user) {
+		if (user.length === 0) {
 			return res.status(409).json("Invalid email or password!");
 		}
 
@@ -50,29 +51,13 @@ export const login = (req, res) => {
 
 		const { password, ...others } = user[0];
 
-		res
-			.cookie("accessToken", token, {
-				httpOnly: true,
-			})
-			.status(200)
-			.json(others);
+		res.status(200).json({ user: others, token });
 	});
-};
-
-// Logout
-export const logout = (req, res) => {
-	res
-		.clearCookie("accessToken", {
-			secure: true,
-			sameSite: "none",
-		})
-		.status(200)
-		.json("User has logged out.");
 };
 
 // Delete Account
 export const deleteAccount = (req, res) => {
-	const token = req.cookies.accessToken;
+	const token = getToken(req, res);
 	if (!token)
 		return res.status(500).json("Not authenticated. Authorization denied!");
 

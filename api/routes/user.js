@@ -3,7 +3,7 @@ import { getUser, getUserById, updateUser } from "../controllers/user.js";
 
 const router = express.Router();
 
-router.put("/", updateUser);
+router.put("/me", updateUser);
 router.get("/", getUser);
 router.get("/:id", getUserById);
 

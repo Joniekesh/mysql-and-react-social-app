@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { db } from "../config/db.js";
+import { getToken } from "../utils/getToken.js";
 
 // Get Followers
 export const getFollowings = (req, res) => {
@@ -15,7 +16,7 @@ export const getFollowings = (req, res) => {
 
 // Follow And UnFollow User
 export const followUnfollowUser = (req, res) => {
-	const token = req.cookies.accessToken;
+	const token = getToken(req, res);
 
 	if (!token)
 		return res.status(500).json("Not authenticated. Authorization denied!");

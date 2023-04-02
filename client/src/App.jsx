@@ -16,22 +16,37 @@ import { useContext, useEffect, useState } from "react";
 import { DarkModeContext } from "./context/DarkModeContext";
 import { AuthContext } from "./context/AuthContext";
 import { UserContext } from "./context/UserContext";
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { io } from "socket.io-client";
 
 const queryClient = new QueryClient();
+const ENDPOINT = "https://mysql-social-app.onrender.com";
+// const ENDPOINT = "http://localhost:5000";
 
 const App = () => {
+	const [socket, setSocket] = useState(null);
+	const [onlineUsers, setOnlineUsers] = useState([]);
+
 	const { darkMode } = useContext(DarkModeContext);
 	const { currentUser } = useContext(AuthContext);
-	const { getUser } = useContext(UserContext);
+	const { getUser, user } = useContext(UserContext);
 
 	useEffect(() => {
-		const fetchUser = async () => {
-			await getUser();
-		};
-		fetchUser();
+		getUser();
 	}, []);
+
+	useEffect(() => {
+		setSocket(io(ENDPOINT));
+		socket?.emit("addUser", user.fullname);
+	}, [user]);
+
+	useEffect(() => {
+		socket?.on("getOnlineUsers", (users) => {
+			setOnlineUsers(users);
+		});
+	}, [user]);
 
 	const PrivateRoute = ({ children }) => {
 		return currentUser ? children : <Navigate to="/login" />;
@@ -40,8 +55,11 @@ const App = () => {
 	const Layout = () => {
 		return (
 			<QueryClientProvider client={queryClient}>
+				<div>
+					<ToastContainer />
+				</div>
 				<div className={`theme-${darkMode ? "dark" : "light"}`}>
-					<Navbar />
+					<Navbar socket={socket} />
 					<div style={{ display: "flex" }}>
 						<LeftBar />
 						<div style={{ flex: 6 }}>
@@ -65,7 +83,7 @@ const App = () => {
 			children: [
 				{
 					path: "/",
-					element: <Home />,
+					element: <Home socket={socket} />,
 				},
 				{
 					path: "/profile/:id",

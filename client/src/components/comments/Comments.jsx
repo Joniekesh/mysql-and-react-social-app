@@ -3,10 +3,14 @@ import CommentItem from "../commentItem/CommentItem";
 import Loader from "../loader/Loader";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { makeRequest } from "../../axiosInstance";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { toast } from "react-toastify";
+import { UserContext } from "../../context/UserContext";
 
-const Comments = ({ postId }) => {
+const Comments = ({ postId, fullname, socket }) => {
 	const [text, setText] = useState("");
+
+	const { user } = useContext(UserContext);
 
 	const { isLoading, error, data } = useQuery(["comments"], () =>
 		makeRequest.get("/comments/" + postId).then((res) => {
@@ -28,16 +32,24 @@ const Comments = ({ postId }) => {
 		}
 	);
 
-	const handleSubmit = (e) => {
+	const handleSubmit = (e, type) => {
 		e.preventDefault();
 
 		mutation.mutate({ text, postId });
 		setText("");
+
+		toast.success("Comment added.", { theme: "colored" });
+
+		socket?.emit("sendNotification", {
+			sender: user.fullname,
+			receiver: fullname,
+			type,
+		});
 	};
 
 	return (
 		<div className="comments">
-			<form onSubmit={handleSubmit}>
+			<form>
 				<div className="formInput">
 					<img src="/assets/profilepic.png" alt="" />
 					<input
@@ -47,7 +59,7 @@ const Comments = ({ postId }) => {
 						onChange={(e) => setText(e.target.value)}
 					/>
 				</div>
-				<button className="btn" type="submit">
+				<button className="btn" type="submit" onClick={() => handleSubmit(2)}>
 					Send
 				</button>
 			</form>

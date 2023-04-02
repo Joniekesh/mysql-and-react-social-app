@@ -15,26 +15,15 @@ const EditProfile = ({ setIsEdit, user }) => {
 		username: user?.username,
 		fullname: user?.fullname,
 		email: user?.email,
-		password: user?.password,
 		address: user?.address,
 		city: user?.city,
 		country: user?.country,
 		bio: user?.bio,
 		phone: user?.phone,
-		password: "",
 	});
 
-	const {
-		username,
-		fullname,
-		email,
-		password,
-		address,
-		city,
-		country,
-		bio,
-		phone,
-	} = inputs;
+	const { username, fullname, email, address, city, country, bio, phone } =
+		inputs;
 
 	const handleChange = (e) => {
 		setInputs((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -174,14 +163,6 @@ const EditProfile = ({ setIsEdit, user }) => {
 							type="text"
 							defaultValue={bio}
 							name="bio"
-							onChange={handleChange}
-						/>
-					</div>
-					<div className="inputContainer">
-						<label>Password</label>
-						<input
-							type="password"
-							defaultValue={password}
 							onChange={handleChange}
 						/>
 					</div>

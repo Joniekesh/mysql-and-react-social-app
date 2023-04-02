@@ -28,12 +28,28 @@
 			width: 90%;
 			border-radius: 10px;
 
+			h2 {
+				@include mobile {
+					margin-top: 0;
+				}
+			}
+
+			@include mobile {
+				height: 100%;
+				width: 100%;
+				border-radius: unset;
+			}
+
 			.cancel {
 				position: absolute;
 				top: 5px;
 				right: 5px;
 				cursor: pointer;
 				font-size: 20px;
+
+				@include mobile {
+					right: 20px;
+				}
 			}
 
 			form {
@@ -48,8 +64,16 @@
 					flex-direction: column;
 					width: 250px;
 
+					@include mobile {
+						width: 300px;
+					}
+
 					label {
 						font-weight: 600;
+
+						@include mobile {
+							font-size: 15px;
+						}
 					}
 
 					input {
@@ -58,6 +82,7 @@
 						background-color: themed("bgSoft");
 						color: themed("textColor");
 						padding: 6px;
+						border-radius: 5px;
 					}
 				}
 

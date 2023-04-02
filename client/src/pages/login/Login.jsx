@@ -29,7 +29,7 @@ const Login = () => {
 
 		try {
 			await login(inputs);
-			navigate("/");
+			window.location.reload("/");
 		} catch (err) {
 			console.log(err);
 		}
