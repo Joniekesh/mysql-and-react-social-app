@@ -22,6 +22,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { io } from "socket.io-client";
 
 const queryClient = new QueryClient();
+
+// socket io
 const ENDPOINT = "https://mysql-social-app.onrender.com";
 // const ENDPOINT = "http://localhost:5000";
 
