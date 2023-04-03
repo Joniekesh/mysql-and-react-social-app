@@ -11,4 +11,7 @@ import axios from "axios";
 
 export const makeRequest = axios.create({
 	baseURL: "https://mysql-social-app.onrender.com/api",
+	headers: {
+		Authorization: `Bearer ${localStorage.getItem("token")}`,
+	},
 });
