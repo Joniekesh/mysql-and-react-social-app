@@ -1,7 +1,5 @@
 import axios from "axios";
 
-// connection
-
 // export const makeRequest = axios.create({
 // 	baseURL: "http://localhost:5000/api",
 // 	headers: {
