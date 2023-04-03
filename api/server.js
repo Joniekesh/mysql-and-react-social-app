@@ -31,9 +31,9 @@ const app = express();
 // });
 app.use(
 	cors({
-		origin: "https://mysql-social-app.netlify.app",
+		// origin: "https://mysql-social-app.netlify.app",
 
-		// origin: "http://localhost:3000",
+		origin: "http://localhost:3000",
 	})
 );
 app.use(express.json());
@@ -41,11 +41,11 @@ app.use(express.json());
 const server = http.createServer(app);
 const io = new Server(server, {
 	cors: {
-		origin: "https://mysql-social-app.netlify.app",
-		// "http://localhost:3000"
+		origin: "http://localhost:3000",
 	},
 });
 
+// origin: "https://mysql-social-app.netlify.app",
 io.on("connection", (socket) => {
 	socket.on("addUser", (fullname) => {
 		addUser(socket.id, fullname);

@@ -24,8 +24,8 @@ import { io } from "socket.io-client";
 const queryClient = new QueryClient();
 
 // socket io
-const ENDPOINT = "https://mysql-social-app.onrender.com";
-// const ENDPOINT = "http://localhost:5000";
+// const ENDPOINT = "https://mysql-social-app.onrender.com";
+const ENDPOINT = "http://localhost:5000";
 
 const App = () => {
 	const [socket, setSocket] = useState(null);
