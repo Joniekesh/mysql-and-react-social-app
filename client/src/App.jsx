@@ -25,7 +25,7 @@ const queryClient = new QueryClient();
 
 // socket io
 // const ENDPOINT = "https://mysql-social-app.onrender.com";
-const ENDPOINT = "mysql-react-app-api-production.up.railway.app";
+const ENDPOINT = "https://mysql-react-app-api-production.up.railway.app";
 
 const App = () => {
 	const [socket, setSocket] = useState(null);
