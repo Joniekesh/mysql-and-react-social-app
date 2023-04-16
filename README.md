@@ -4,6 +4,10 @@
 2. Post with CRUD and Like/Unlike functionalities.
 3. Post Comment with Update and Delete functionalites.
 4. Profile with Edit and Delete functionalities.
+5. Light and Dark Theme Switching.
+6. Users' Search.
+7. Follow and Unfollow User.
+8. User Suggestions,Activities and Online Friends.
 # Technologies Used.
 1. MYSQL.
 2. Express.
