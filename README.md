@@ -1,4 +1,24 @@
 # mysql-and-react-social-app
+# Key Features.
+1. Athentication (Register and Login with JWT).
+2. Post with CRUD and Like/Unlike functionalities.
+3. Post Comment with Update and Delete functionalites.
+4. Profile with Edit and Delete functionalities.
+# Technologies Used.
+1. MYSQL.
+2. Express.
+3. Node.JS.
+4. React.
+5. Tanstack React Query.
+6. BcryptJS.
+7. Jason Web Token.
+8. Timeago.js.
+9. Sass.
+10. Axios.
+11. Multer.
+12. Nodemon etc.
+
+
 # Register Page
 ![mysql-social-app-full-register-page](https://user-images.githubusercontent.com/73966666/232323625-8b5866de-7e92-46ea-9b95-189e412ea99c.PNG)
 # Login Page
@@ -15,5 +35,7 @@
 ![mysql-social-app-tablet-home](https://user-images.githubusercontent.com/73966666/232324068-abf30705-dae8-48f0-bdf6-b27569209674.PNG)
 # Responsive Home Page
 ![mysql-social-app-mobile-full-length-home](https://user-images.githubusercontent.com/73966666/232324081-c54a3023-5b69-4483-b842-5d703ba6254b.png)
+# Responsive Profile Page
+![mysql-social-app-mobile-profile-page](https://user-images.githubusercontent.com/73966666/232324885-81876201-e9ca-4776-9bc1-4887cbe3b1e4.png)
 
 
