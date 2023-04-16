@@ -1,6 +1,6 @@
 # mysql-and-react-social-app
 # Key Features.
-1. Athentication (Register and Login with JWT).
+1. Authentication (Register and Login with JWT).
 2. Post with CRUD and Like/Unlike functionalities.
 3. Post Comment with Update and Delete functionalites.
 4. Profile with Edit and Delete functionalities.
